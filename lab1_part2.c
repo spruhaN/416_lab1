@@ -9,7 +9,7 @@
 int button_pressed(int time);
 
 int main(void) {
-   char* names[] = {"       Spruha Nayak", "       Sarah Hellman", "       Aiden Jacob"};
+   char* names[] = {"       Spruha Nayak", "       Sarah Hallam", "       Aiden Jacob"};
    int index = 0;
 
    init();
@@ -20,23 +20,26 @@ int main(void) {
       // gets current name 
       char* curr_name = names[index];
       int len = strlen(curr_name);
+      int button_status = 0;
 
       for (int position = 0; position < len; position++) {     
          // if the button is not pressed scroll name
         lcd_cursor(0, 0);
         print_string(curr_name + position);
         // checks button status
-        int button_status = button_pressed(300);
-        if(button_status){
-            // if button is pressed change name 0 index ++ %3
-            if (index == 2){
-                index = 0;
-            }else{
-                index++;
+        for(int i=0; i<300; i++){
+            if (get_btn()){
+                button_status = 1;
+                lcd_cursor(0,1);
+                print_num(i);
             }
+            _delay_ms(1);
         }
         clear_screen();
 
+      }
+      if (button_status == 1){
+        index = (index+1)%3;
       }
     }
     return 0;
@@ -44,12 +47,14 @@ int main(void) {
 
 
 int button_pressed(int time){
-    
+    int res = 0;
     for(int i=0; i<time; i++){
         if (get_btn()){
-            return 1;
+            res = 1;
+            lcd_cursor(0,1);
+            print_num(i);
         }
         _delay_ms(1);
     }
-    return 0;
+    return res;
 }
