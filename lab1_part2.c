@@ -6,7 +6,6 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
 
-int button_pressed(int time);
 
 int main(void) {
    char* names[] = {"       Spruha Nayak", "       Sarah Hallam", "       Aiden Jacob"};
@@ -38,23 +37,10 @@ int main(void) {
         clear_screen();
 
       }
+      // final button check so only one increment can happen per scroll
       if (button_status == 1){
         index = (index+1)%3;
       }
     }
     return 0;
 } 
-
-
-int button_pressed(int time){
-    int res = 0;
-    for(int i=0; i<time; i++){
-        if (get_btn()){
-            res = 1;
-            lcd_cursor(0,1);
-            print_num(i);
-        }
-        _delay_ms(1);
-    }
-    return res;
-}
