@@ -30,7 +30,6 @@ int main(void) {
             if (get_btn()){
                 button_status = 1;
                 lcd_cursor(0,1);
-                print_num(i);
             }
             _delay_ms(1);
         }
